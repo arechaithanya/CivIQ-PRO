@@ -17,7 +17,7 @@ npm install
 npm start
 ```
 
-Server runs at: `http://localhost:3000`
+Server runs at: `http://localhost:3001`
 
 ## API
 
@@ -52,7 +52,7 @@ Response shape:
 ### 1) Under 18 (ineligible)
 
 ```bash
-curl -X POST http://localhost:3000/assist \
+curl -X POST http://localhost:3001/assist \
   -H "Content-Type: application/json" \
   -d '{"age":16,"hasVoterID":false,"movedCity":false}'
 ```
@@ -76,7 +76,7 @@ Expected response (example):
 ### 2) 18+ and no voter ID
 
 ```bash
-curl -X POST http://localhost:3000/assist \
+curl -X POST http://localhost:3001/assist \
   -H "Content-Type: application/json" \
   -d '{"age":22,"hasVoterID":false,"movedCity":false}'
 ```
@@ -102,7 +102,7 @@ Expected response (example):
 ### 3) Already has voter ID and moved city
 
 ```bash
-curl -X POST http://localhost:3000/assist \
+curl -X POST http://localhost:3001/assist \
   -H "Content-Type: application/json" \
   -d '{"age":30,"hasVoterID":true,"movedCity":true}'
 ```
@@ -128,7 +128,7 @@ Expected response (example):
 ### 4) Already has voter ID and did not move
 
 ```bash
-curl -X POST http://localhost:3000/assist \
+curl -X POST http://localhost:3001/assist \
   -H "Content-Type: application/json" \
   -d '{"age":28,"hasVoterID":true,"movedCity":false}'
 ```
