@@ -9,6 +9,7 @@ router.post('/assist', async (req, res, next) => {
 
     if (
       !Number.isFinite(age) ||
+      !Number.isInteger(age) ||
       age < 0 ||
       age > 150 ||
       typeof hasVoterID !== 'boolean' ||
@@ -20,7 +21,7 @@ router.post('/assist', async (req, res, next) => {
       });
     }
 
-    const result = await getElectionGuidance({ age, hasVoterID, movedCity });
+    const result = getElectionGuidance({ age, hasVoterID, movedCity });
     return res.json(result);
   } catch (error) {
     return next(error);

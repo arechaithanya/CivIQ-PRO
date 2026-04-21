@@ -4,6 +4,10 @@ function getEligibilityDateFromAge(age) {
   const yearsLeft = 18 - age;
   const roundedYearsLeft = Math.ceil(yearsLeft);
 
+  if (roundedYearsLeft <= 0) {
+    return 'now';
+  }
+
   if (roundedYearsLeft <= 1) {
     return 'within about 1 year';
   }
@@ -11,7 +15,7 @@ function getEligibilityDateFromAge(age) {
   return `in about ${roundedYearsLeft} years`;
 }
 
-async function getElectionGuidance({ age, hasVoterID, movedCity }) {
+function getElectionGuidance({ age, hasVoterID, movedCity }) {
   if (age < 18) {
     const eligibilityWindow = getEligibilityDateFromAge(age);
     const reminder = createReminder('Register to vote in India', eligibilityWindow);
