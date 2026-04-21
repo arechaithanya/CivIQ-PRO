@@ -1,91 +1,156 @@
-# CivIQ-PRO: India Election Guidance Assistant
+# VoteNavigator Backend (Node.js + Express)
 
-This project defines an expert civic-tech AI assistant that helps users understand and complete election-related tasks in India with clear, personalized guidance.
+A minimal backend API that gives election guidance for India based on user details.
 
-## Mission
+## Project Structure
 
-Guide users step-by-step so they can complete the election process confidently without external help.
+- `server.js`
+- `routes/assistant.js`
+- `utils/decisionEngine.js`
+- `utils/googleService.js`
+- `README.md`
 
-## Core Responsibilities
+## Setup
 
-1. Explain election processes:
-   - Lok Sabha elections
-   - State Assembly elections
-   - Local body elections
-2. Help users understand:
-   - Eligibility (age, citizenship, voter ID status)
-   - Registration process
-   - Voting methods (EVM, postal ballot)
-   - Important timelines
-3. Provide personalized, step-by-step guidance
-4. Ask smart follow-up questions to refine help
-5. Handle edge cases:
-   - First-time voters
-   - Lost voter ID
-   - Relocation to another city/state
+```bash
+npm install
+npm start
+```
 
-## Mandatory Conversation Style
+Server runs at: `http://localhost:3000`
 
-- Use simple, conversational English
-- Keep responses concise and easy to scan, typically under 200 words unless user asks for detail
-- Break information into clear steps
-- Avoid long paragraphs
-- Guide users, don’t just explain
-- If user is confused, simplify further
-- If user is vague, ask clarifying questions
-- Stay accurate, safe, and politically neutral
+## API
 
-## Required Opening Prompt
+### POST `/assist`
 
-Start every new conversation with:
+Request body:
 
-**“Are you a first-time voter, or do you need help with something specific?”**
+```json
+{
+  "age": 19,
+  "hasVoterID": false,
+  "movedCity": false
+}
+```
 
-## Decision Logic
+Response shape:
 
-- If user age is below 18:
-  - Explain they are currently ineligible
-  - Tell them when they can register
-- If user has no voter ID:
-  - Guide registration steps
-  - List required documents
-  - Share expected processing timeline
-- If voter ID is lost:
-  - Explain recovery/reissue process
-- If user moved city/state:
-  - Explain voter record/address transfer process
+```json
+{
+  "status": "eligible",
+  "message": "short explanation",
+  "steps": ["numbered steps"],
+  "timeline": "estimated time",
+  "nextAction": "what to do next"
+}
+```
 
-## India-Specific References (Must Include Where Relevant)
+---
 
-- Election Commission of India (ECI)
-- NVSP (National Voters' Service Portal)
+## Example Requests and Expected Responses
 
-## Output Format Requirements
+### 1) Under 18 (ineligible)
 
-Use:
-- Clear headings
-- Bullet points
-- Step-by-step instructions
-- Timelines where relevant
+```bash
+curl -X POST http://localhost:3000/assist \
+  -H "Content-Type: application/json" \
+  -d '{"age":16,"hasVoterID":false,"movedCity":false}'
+```
 
-Include when relevant:
-- Common mistakes to avoid
-- A quick checklist before voting day
+Expected response (example):
 
-## Optional Enhancements
+```json
+{
+  "status": "ineligible",
+  "message": "You are not eligible to vote yet...",
+  "steps": [
+    "1. Keep a valid proof of age...",
+    "2. Keep your address proof ready...",
+    "3. Set a reminder to apply on NVSP..."
+  ],
+  "timeline": "Eligible around ...",
+  "nextAction": "Wait until age 18 and then apply for voter registration on NVSP."
+}
+```
 
-Where useful, suggest:
-- Google Maps for polling booth location
-- Google Calendar for election reminders
-- Gmail for document checklist/reminder emails
+### 2) 18+ and no voter ID
 
-## Example Behavior
+```bash
+curl -X POST http://localhost:3000/assist \
+  -H "Content-Type: application/json" \
+  -d '{"age":22,"hasVoterID":false,"movedCity":false}'
+```
 
-User: “I’m 19 and don’t have a voter ID.”
+Expected response (example):
 
-Assistant should:
-- Confirm eligibility
-- Provide registration steps
-- List required documents
-- Share expected timeline
-- Offer to help set a reminder/checklist
+```json
+{
+  "status": "eligible",
+  "message": "You are eligible to vote, but you need to register for a voter ID first.",
+  "steps": [
+    "1. Go to NVSP...",
+    "2. Fill your personal details...",
+    "3. Upload required documents...",
+    "4. Submit the application...",
+    "5. Track status on NVSP..."
+  ],
+  "timeline": "Usually 2-4 weeks for verification and voter ID generation.",
+  "nextAction": "Complete Form 6 on NVSP today and keep your reference number safe."
+}
+```
+
+### 3) Already has voter ID and moved city
+
+```bash
+curl -X POST http://localhost:3000/assist \
+  -H "Content-Type: application/json" \
+  -d '{"age":30,"hasVoterID":true,"movedCity":true}'
+```
+
+Expected response (example):
+
+```json
+{
+  "status": "eligible",
+  "message": "You are eligible to vote, but your voter details should be updated to your new city.",
+  "steps": [
+    "1. Visit NVSP and select voter transfer/address update (Form 8).",
+    "2. Enter your EPIC number and new residential address details.",
+    "3. Upload your new address proof and submit the request.",
+    "4. Track the request on NVSP...",
+    "5. Verify your name in the updated electoral roll..."
+  ],
+  "timeline": "Usually 2-4 weeks for address verification and transfer.",
+  "nextAction": "Submit Form 8 on NVSP to transfer your voter record to the new city."
+}
+```
+
+### 4) Already has voter ID and did not move
+
+```bash
+curl -X POST http://localhost:3000/assist \
+  -H "Content-Type: application/json" \
+  -d '{"age":28,"hasVoterID":true,"movedCity":false}'
+```
+
+Expected response (example):
+
+```json
+{
+  "status": "eligible",
+  "message": "You are eligible and your voter ID appears ready for voting.",
+  "steps": [
+    "1. Check your name in the electoral roll on NVSP before voting day.",
+    "2. Find your polling booth details using NVSP or the Voter Helpline app.",
+    "3. Keep your voter ID (EPIC) or other approved ID proof ready.",
+    "4. Reach the polling booth during voting hours...",
+    "5. Verify your vote carefully on the EVM/VVPAT screen..."
+  ],
+  "timeline": "Ready now; complete checklist before election day.",
+  "nextAction": "Confirm your polling booth location and keep your ID ready."
+}
+```
+
+## Basic Error Handling
+
+If request body has invalid types, API returns `400` with a helpful message.
