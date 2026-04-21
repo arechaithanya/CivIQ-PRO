@@ -8,7 +8,6 @@ router.post('/assist', (req, res, next) => {
     const { age, hasVoterID, movedCity } = req.body;
 
     if (
-      !Number.isFinite(age) ||
       !Number.isInteger(age) ||
       age < 0 ||
       age > 150 ||
