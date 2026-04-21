@@ -3,7 +3,7 @@ const { getElectionGuidance } = require('../utils/decisionEngine');
 
 const router = express.Router();
 
-router.post('/assist', async (req, res, next) => {
+router.post('/assist', (req, res, next) => {
   try {
     const { age, hasVoterID, movedCity } = req.body;
 
@@ -17,7 +17,7 @@ router.post('/assist', async (req, res, next) => {
     ) {
       return res.status(400).json({
         error: 'Invalid request body',
-        message: 'age must be a non-negative number, and hasVoterID/movedCity must be boolean values.'
+        message: 'age must be an integer between 0 and 150, and hasVoterID/movedCity must be boolean values.'
       });
     }
 
