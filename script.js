@@ -431,14 +431,14 @@ function detectIntent(text) {
     if (age < 18 && /\b(year|old|age|yr|i am|im|i'm)\b/.test(t)) return { intent: "under18", age };
     if (age >= 18 && /\b(year|old|age|yr|i am|im|i'm)\b/.test(t)) {
       // check if they also mention no voter id
-      if (/no voter|don.t have|don't have|haven.t got|haven't got|not.*voter|without.*voter/.test(t)) {
+      if (/no voter|don't have|haven't got|not.*voter|without.*voter/.test(t)) {
         return { intent: "noVoterId", age };
       }
     }
   }
 
   // under-18 without explicit age
-  if (/under\s*18|below\s*18|not\s*18|minor|can.t vote/.test(t)) return "under18";
+  if (/under\s*18|below\s*18|not\s*18|minor|can't vote/.test(t)) return "under18";
 
   // first-time voter
   if (/first.time|first time|new voter|never voted|how.*vote.*first/.test(t)) return "firstTimeVoter";
