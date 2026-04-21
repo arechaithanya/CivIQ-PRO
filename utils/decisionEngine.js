@@ -1,27 +1,30 @@
 const { createReminder } = require('./googleService');
 
 function getEligibilityDateFromAge(age) {
-  const now = new Date();
   const yearsLeft = 18 - age;
-  const eligibilityDate = new Date(now);
-  eligibilityDate.setFullYear(now.getFullYear() + yearsLeft);
-  return eligibilityDate.toDateString();
+  const roundedYearsLeft = Math.ceil(yearsLeft);
+
+  if (roundedYearsLeft <= 1) {
+    return 'within about 1 year';
+  }
+
+  return `in about ${roundedYearsLeft} years`;
 }
 
 async function getElectionGuidance({ age, hasVoterID, movedCity }) {
   if (age < 18) {
-    const eligibilityDate = getEligibilityDateFromAge(age);
-    const reminder = createReminder('Register to vote in India', eligibilityDate);
+    const eligibilityWindow = getEligibilityDateFromAge(age);
+    const reminder = createReminder('Register to vote in India', eligibilityWindow);
 
     return {
       status: 'ineligible',
-      message: `You are not eligible to vote yet. You can register when you turn 18 (around ${eligibilityDate}).`,
+      message: `You are not eligible to vote yet. You can register when you turn 18 (${eligibilityWindow}).`,
       steps: [
         '1. Keep a valid proof of age (birth certificate, school certificate, or passport).',
         '2. Keep your address proof ready for future voter registration.',
         `3. Set a reminder to apply on NVSP when you turn 18. ${reminder.message}`
       ],
-      timeline: `Eligible around ${eligibilityDate}`,
+      timeline: `Expected eligibility ${eligibilityWindow}`,
       nextAction: 'Wait until age 18 and then apply for voter registration on NVSP.'
     };
   }

@@ -8,9 +8,9 @@ router.post('/assist', async (req, res, next) => {
     const { age, hasVoterID, movedCity } = req.body;
 
     if (
-      typeof age !== 'number' ||
-      Number.isNaN(age) ||
+      !Number.isFinite(age) ||
       age < 0 ||
+      age > 150 ||
       typeof hasVoterID !== 'boolean' ||
       typeof movedCity !== 'boolean'
     ) {
