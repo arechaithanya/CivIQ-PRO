@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CivIQ-PRO – India Election Guidance Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🗳️</span>
+        <div>
+          <span class="logo-title">CivIQ-PRO</span>
+          <span class="logo-sub">India Election Guidance Assistant</span>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="https://eci.gov.in" target="_blank" rel="noopener">ECI</a>
+        <a href="https://nvsp.in" target="_blank" rel="noopener">NVSP</a>
+        <button class="btn-reset" id="resetBtn" title="Start over">↺ Restart</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main class="main-layout">
+
+    <!-- Sidebar: quick topics -->
+    <aside class="sidebar">
+      <p class="sidebar-heading">Quick Topics</p>
+      <ul class="topic-list">
+        <li><button class="topic-btn" data-topic="first-time">🆕 First-time voter</button></li>
+        <li><button class="topic-btn" data-topic="no-id">📋 Register / No voter ID</button></li>
+        <li><button class="topic-btn" data-topic="lost-id">🔍 Lost my voter ID</button></li>
+        <li><button class="topic-btn" data-topic="moved">📦 Moved city / state</button></li>
+        <li><button class="topic-btn" data-topic="under18">🎂 I'm under 18</button></li>
+        <li><button class="topic-btn" data-topic="voting-day">✅ Voting day checklist</button></li>
+        <li><button class="topic-btn" data-topic="evm">🖥️ How EVM works</button></li>
+        <li><button class="topic-btn" data-topic="postal">✉️ Postal ballot</button></li>
+        <li><button class="topic-btn" data-topic="elections">🏛️ Types of elections</button></li>
+      </ul>
+    </aside>
+
+    <!-- Chat window -->
+    <section class="chat-section">
+      <div class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Chat messages"></div>
+
+      <!-- Typing indicator -->
+      <div class="typing-indicator" id="typingIndicator" hidden>
+        <span></span><span></span><span></span>
+      </div>
+
+      <!-- Input bar -->
+      <div class="input-bar">
+        <input
+          type="text"
+          id="userInput"
+          class="chat-input"
+          placeholder="Type your question here…"
+          autocomplete="off"
+          aria-label="Chat input"
+        />
+        <button class="send-btn" id="sendBtn" aria-label="Send message">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <p>
+      Data provided for civic education only. Always verify with the
+      <a href="https://eci.gov.in" target="_blank" rel="noopener">Election Commission of India</a>
+      and <a href="https://nvsp.in" target="_blank" rel="noopener">NVSP</a>.
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
