@@ -1,0 +1,25 @@
+{
+  "name": "civiq-pro",
+  "version": "1.0.0",
+  "description": "This project defines an expert civic-tech AI assistant that helps users understand and complete election-related tasks in India with clear, personalized guidance.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node -e \"console.log('No tests configured')\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arechaithanya/CivIQ-PRO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/arechaithanya/CivIQ-PRO/issues"
+  },
+  "homepage": "https://github.com/arechaithanya/CivIQ-PRO#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
