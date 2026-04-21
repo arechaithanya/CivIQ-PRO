@@ -1,18 +1,17 @@
 const { createReminder } = require('./googleService');
 
 function getEligibilityDateFromAge(age) {
-  const yearsLeft = 18 - age;
-  const roundedYearsLeft = Math.ceil(yearsLeft);
-
-  if (roundedYearsLeft <= 0) {
+  if (age >= 18) {
     return 'now';
   }
 
-  if (roundedYearsLeft <= 1) {
+  const yearsUntilEligible = Math.ceil(18 - age);
+
+  if (yearsUntilEligible <= 1) {
     return 'within about 1 year';
   }
 
-  return `in about ${roundedYearsLeft} years`;
+  return `in about ${yearsUntilEligible} years`;
 }
 
 function getElectionGuidance({ age, hasVoterID, movedCity }) {
